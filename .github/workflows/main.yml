@@ -41,7 +41,7 @@ jobs:
         run: |
             python -m pip install --upgrade pip setuptools wheel
             pip install conan==1.30.2 conan_package_tools==0.34.3
-            conan profile list
+            conan profile new default --detect
       - name: Build for iOS
         if: startsWith(matrix.os, 'macos')
         env:
