@@ -49,7 +49,6 @@ jobs:
         run:  |
           python .ci/build-ios.py
       - name: Push recipe into Bintray
-        if: startsWith(matrix.os, 'ubuntu')
         run: |
             conan remote add bintray-burrito https://api.bintray.com/conan/conan-burrito/main
             conan user -p ${{ env.BINTRAY_PASSWORD }} -r bintray-burrito ${{ env.BINTRAY_USER }}

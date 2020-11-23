@@ -241,8 +241,6 @@ class Recipe(ConanFile):
             if name.endswith('.xcframework'):
                 src_dir = os.path.join(src_dir, name, arch)
                 name = name.replace('.xc', '.')
-                self.output.info('Name: %s' % name)
-                self.output.info('Dir: %s' % src_dir)
             self.copy('{}/*'.format(name), dst='Frameworks', src=src_dir, symlinks=True)
 
         for x in binaries:
