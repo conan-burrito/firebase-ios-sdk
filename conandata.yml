@@ -1,0 +1,7 @@
+sources:
+  "6.32.2":
+    url: "https://github.com/firebase/firebase-ios-sdk/releases/download/CocoaPods-6.32.2/Firebase.zip"
+    sha256: "f337dd3f27bc1b8b49ce4a712d4537aa1c75134c2a327607c8e3bb022710d18f"
+
+patches:
+  "6.32.2": []
