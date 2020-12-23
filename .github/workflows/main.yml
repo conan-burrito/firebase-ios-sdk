@@ -1,7 +1,7 @@
 name: build
 
 env:
-  CONAN_REFERENCE: "firebase-ios-sdk/6.32.2"
+  CONAN_REFERENCE: "firebase-ios-sdk/7.3.0"
   CONAN_USERNAME: "conan-burrito"
   CONAN_UPLOAD: "https://conan.yobasoft.de"
   CONAN_STABLE_BRANCH_PATTERN: "release/*"
