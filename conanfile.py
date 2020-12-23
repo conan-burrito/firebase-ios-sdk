@@ -5,7 +5,7 @@ import os
 
 class Recipe(ConanFile):
     name = 'firebase-ios-sdk'
-    version = '6.32.2'
+    version = '7.3.0'
     description = 'Firebase iOS SDK'
     homepage = 'https://github.com/firebase/firebase-ios-sdk'
     license = 'Apache-2.0 License'
@@ -93,22 +93,24 @@ class Recipe(ConanFile):
         def add_resources(subdir, res):
             resources.extend([('{}/Resources/'.format(subdir), x) for x in res])
 
+        # Developer note: see into package sources and add each framework in appropriate `src` directory
+        # e.g.: with_ab_testing -> look into FirebaseABTesting. It contains a single file: FirebaseABTesting.xcframework
+        # Double check with the README.md file
+        if self.options.with_ab_testing:
+            add_frameworks('FirebaseABTesting', ['FirebaseABTesting.xcframework'])
+
         if self.options.with_analytics:
             add_frameworks('FirebaseAnalytics', [
-                'FIRAnalyticsConnector.framework',
-                'FirebaseAnalytics.framework',
+                'FirebaseAnalytics.xcframework',
                 'FirebaseCore.xcframework',
                 'FirebaseCoreDiagnostics.xcframework',
                 'FirebaseInstallations.xcframework',
-                'GoogleAppMeasurement.framework',
+                'GoogleAppMeasurement.xcframework',
                 'GoogleDataTransport.xcframework',
                 'GoogleUtilities.xcframework',
                 'nanopb.xcframework',
                 'PromisesObjC.xcframework',
             ])
-
-        if self.options.with_ab_testing:
-            add_frameworks('FirebaseABTesting', ['FirebaseABTesting.xcframework'])
 
         if self.options.with_app_distribution:
             add_frameworks('FirebaseAppDistribution', ['FirebaseAppDistribution.xcframework'])
@@ -181,13 +183,12 @@ class Recipe(ConanFile):
             add_frameworks('FirebaseMessaging', [
                 'FirebaseInstanceID.xcframework',
                 'FirebaseMessaging.xcframework',
-                'Protobuf.xcframework',
             ])
 
         if self.options.with_performance:
             add_frameworks('FirebasePerformance', [
                 'FirebaseABTesting.xcframework',
-                'FirebasePerformance.framework',
+                'FirebasePerformance.xcframework',
                 'FirebaseRemoteConfig.xcframework',
                 'GoogleToolboxForMac.xcframework',
                 'GTMSessionFetcher.xcframework',
@@ -208,8 +209,8 @@ class Recipe(ConanFile):
 
         if self.options.with_mobile_ads_sdk:
             add_frameworks('Google-Mobile-Ads-SDK', [
-                'GoogleMobileAds.framework',
-                'UserMessagingPlatform.framework',
+                'GoogleMobileAds.xcframework',
+                'UserMessagingPlatform.xcframework',
             ])
 
         if self.options.with_google_sign_in:
@@ -228,10 +229,10 @@ class Recipe(ConanFile):
         self.copy("NOTICES", dst="licenses", src=self.source_subfolder)
 
         arch = {
-            'armv8': 'ios-armv7_arm64',
-            'armv7': 'ios-armv7_arm64',
-            'x86': 'ios-i386_x86_64-simulator',
-            'x86_64': 'ios-i386_x86_64-simulator'
+            'armv8': 'ios-arm64_armv7',
+            'armv7': 'ios-arm64_armv7',
+            'x86':    'ios-arm64_i386_x86_64-simulator',
+            'x86_64': 'ios-arm64_i386_x86_64-simulator'
         }.get(str(self.settings.arch))
 
         frameworks, binaries, resources = self.collect_frameworks()
